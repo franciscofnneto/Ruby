@@ -34,8 +34,6 @@ describe ContaCorrente do
             end
         end
     
-
-    
         context 'Quando o saldo é insuficiente'do
             before(:all)do
                 @conta = ContaCorrente.new(0.0)
