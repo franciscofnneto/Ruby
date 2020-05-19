@@ -1,24 +1,7 @@
 
-class ContaCorrente
-    attr_accessor :saldo, :mensagem
+require_relative '../app/bank'
 
-    def initialize(saldo)
-        self.saldo = saldo
-    end
-
-    def saca(valor)
-        if (valor > self.saldo)
-            self.mensagem = 'Saldo insuficiente para saque :('
-        
-        elsif(valor > 700.00)
-            self.mensagem = 'Limite máximo por saque é de R$ 700'
-
-        else
-            self.saldo -= valor
-        end
-    end
-    
-end
+#Para executar: rspec spec\saque_spec.rb -fd
 
 describe ContaCorrente do
     
@@ -40,11 +23,11 @@ describe ContaCorrente do
                 @conta.saca(100.00)
             end
 
-            it 'Vejo mensagem'do
+            it 'Então exibe mensagem'do
                 expect(@conta.mensagem).to eql 'Saldo insuficiente para saque :('
             end
 
-            it 'Meu Saldo permanece com Zero'do
+            it 'E o Saldo final com Zero'do
                 expect(@conta.saldo).to eql 0.00
             end
         end
@@ -70,26 +53,26 @@ describe ContaCorrente do
                 @conta.saca(501.00)
             end
 
-            it 'Vejo mensagem'do
+            it 'Então exibe a mensagem'do
                 expect(@conta.mensagem).to eql 'Saldo insuficiente para saque :('
             end
 
-            it 'Meu Saldo permanece conforme o valor inicial'do
+            it 'e o saldo permanece'do
                 expect(@conta.saldo).to eql 500.00
             end
         end
 
-        context 'Quando o valor do saque é maior que o limite por transação'do
+        context 'Quando supera o limite do saque'do
             before(:all)do
                 @conta = ContaCorrente.new(1000.0)
                 @conta.saca(701.00)
             end
 
-            it 'Vejo mensagem'do
+            it 'Então exibe a mensagem'do
                 expect(@conta.mensagem).to eql 'Limite máximo por saque é de R$ 700'
             end
 
-            it 'Meu Saldo permanece conforme o valor inicial'do
+            it 'E o saldo permanece'do
                 expect(@conta.saldo).to eql 1000.00
             end
         end
